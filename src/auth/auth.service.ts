@@ -172,7 +172,7 @@ export class AuthService {
 
     const permissions = Array.from(
       new Set((permissionsResult.data as PermissionRow[]).map(item => item.permission_code)),
-    ).sort();
+    ).sort((left, right) => left.localeCompare(right));
 
     const groupIds = Array.from(
       new Set((groupMembershipsResult.data as GroupMembershipRow[]).map(item => item.group_id)),
@@ -201,6 +201,7 @@ export class AuthService {
       .from('users')
       .select('email')
       .eq('username', identifier)
+      .is('deleted_at', null)
       .maybeSingle<{ email: string }>();
 
     if (error) {
@@ -219,6 +220,7 @@ export class AuthService {
       .from('users')
       .select('*')
       .eq('email', email)
+      .is('deleted_at', null)
       .single<AppUserProfileRecord>();
 
     if (error || !data) {
@@ -234,11 +236,13 @@ export class AuthService {
         .from('users')
         .select('id')
         .eq('email', email)
+        .is('deleted_at', null)
         .maybeSingle<{ id: string }>(),
       this.supabaseService.adminClient
         .from('users')
         .select('id')
         .eq('username', username)
+        .is('deleted_at', null)
         .maybeSingle<{ id: string }>(),
     ]);
 

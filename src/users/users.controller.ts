@@ -9,11 +9,11 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
-import { RegisterDto } from '../auth/dto/register.dto';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
 import { IntOpCode } from '../common/decorators/operation-code.decorator';
 import { SupabaseAuthGuard } from '../common/guards/supabase-auth.guard';
 import type { CurrentUser as CurrentUserType } from '../common/interfaces/current-user.interface';
+import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersService } from './users.service';
 
@@ -37,7 +37,7 @@ export class UsersController {
   @Post()
   @HttpCode(201)
   @IntOpCode('USERS_CREATE')
-  createUser(@CurrentUser() currentUser: CurrentUserType, @Body() dto: RegisterDto) {
+  createUser(@CurrentUser() currentUser: CurrentUserType, @Body() dto: CreateUserDto) {
     return this.usersService.createUser(currentUser, dto);
   }
 

@@ -1,4 +1,5 @@
 import {
+  IsArray,
   IsBoolean,
   IsDateString,
   IsEmail,
@@ -34,4 +35,9 @@ export class UpdateUserDto {
   @IsOptional()
   @IsBoolean()
   isSuperuser?: boolean;
+
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  permissions?: string[];
 }

@@ -7,6 +7,7 @@ export interface AppUserProfileRecord {
   phone: string | null;
   address: string | null;
   is_superuser: boolean;
+  deleted_at?: string | null;
   created_at?: string;
   updated_at?: string;
 }
